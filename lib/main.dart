@@ -77,10 +77,10 @@ class _MyHomePageState extends State<MyHomePage> {
         value: isLoading ? null : 1,
         strokeWidth: 1.5,
         backgroundColor: Colors.redAccent,
-        valueColor: AlwaysStoppedAnimation<Color>(Color(0xffeeeeee)),
+        valueColor: AlwaysStoppedAnimation<Color>(Color(0xffffffff)),
       ),
-      height: 20,
-      width: 20,
+      height: 24,
+      width: 24,
     );
   }
 
@@ -89,18 +89,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Container(
-        color: Color(0x99eeeeee),
+        color: Color(0x22eeeeee),
         child: GestureDetector(
           onTap: handleOnScroll,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(left: 12, top: 12, bottom: 12),
+                padding: EdgeInsets.only(left: 12, top: 18, bottom: 12),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    getProgressIndicator(),
+                    isLoading ? getProgressIndicator() : Icon(Icons.search, color: Colors.redAccent),
                     Flexible(
                       child: Container(
                         margin: EdgeInsets.only(left: 12),
