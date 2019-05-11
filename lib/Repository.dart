@@ -1,8 +1,13 @@
-import 'model/User.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'model/MovieList.dart';
 
 class Repository {
-  static Future<User> getUser() async {
-    await Future.delayed(Duration(seconds: 3));
-    return User(name: 'Кирилл', surname: 'Иблан');
+  static String url = 'https://itunes.apple.com/search?country=RU&entity=movie&term=';
+
+  static Future<MovieList> find(String searchString) async {
+    final response  = await http.get('$url/$searchString');
+    return MovieList.fromJson(json.decode(response.body));
   }
 }
