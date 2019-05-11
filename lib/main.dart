@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(left: 12, top: 18, bottom: 12),
+                padding: EdgeInsets.only(left: 12, top: 18, bottom: 12, right: 12),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
@@ -127,14 +127,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Expanded(
-                child: Container(
-                  width: double.infinity,
-                  child: ListView.builder(
-                      controller: scrollController,
-                      itemCount: movieList != null ? movieList.results.length : 0,
-                      itemBuilder: (context, position) {
-                        return MovieItemWidget(movie: movieList.results[position]);
-                      }),
+                child: Center(
+                  child: movieList == null || movieList.results.length == 0
+                      ? Center(
+                          child: Text(
+                          'List is empty',
+                          style: TextStyle(color: Color(0x33666666), fontSize: 24),
+                        ))
+                      : ListView.builder(
+                          controller: scrollController,
+                          itemCount: movieList != null ? movieList.results.length : 0,
+                          itemBuilder: (context, position) {
+                            return MovieItemWidget(movie: movieList.results[position]);
+                          }),
                 ),
               ),
             ],
