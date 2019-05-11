@@ -33,6 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isLoading = false;
   MovieList movieList;
   ScrollController scrollController = new ScrollController();
+  TextEditingController inputController = new TextEditingController();
 
   @override
   void initState() {
@@ -76,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
         value: isLoading ? null : 1,
         strokeWidth: 1.5,
         backgroundColor: Colors.redAccent,
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        valueColor: AlwaysStoppedAnimation<Color>(Color(0xffeeeeee)),
       ),
       height: 20,
       width: 20,
@@ -94,15 +95,35 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Container(
-                child: Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Row(
-                    children: <Widget>[
-                      getProgressIndicator(),
-                      TextField(decoration: InputDecoration.collapsed(hintText: 'Search movie...'), onChanged: handleOnSearchTextChanged),
-                    ],
-                  ),
+              Padding(
+                padding: EdgeInsets.only(left: 12, top: 12, bottom: 12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    getProgressIndicator(),
+                    Flexible(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 12),
+                        child: SizedBox(
+                          child: TextField(
+                            controller: inputController,
+                            decoration: InputDecoration.collapsed(hintText: 'Search movie...'),
+                            onChanged: handleOnSearchTextChanged,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: IconButton(
+                        icon: Icon(Icons.clear),
+                        iconSize: 18,
+                        padding: EdgeInsets.all(0),
+                        onPressed: () => inputController.clear(),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
