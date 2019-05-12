@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_app/Repository.dart';
 
+import 'MovieInfo.dart';
 import 'MovieItemWidget.dart';
+import 'model/Movie.dart';
 import 'model/MovieList.dart';
 
 void main() => runApp(MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(primaryColor: Colors.redAccent),
+      theme: ThemeData(primaryColor: Color(0xff333333)),
       home: MyHomePage(title: 'Itunes movie search'),
     );
   }
@@ -84,12 +85,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void handleOnTap(Movie movie) {
+    print(movie.trackName);
+    Navigator.push(context, MaterialPageRoute(fullscreenDialog: true, builder: (context) => MovieInfo(movie: movie)));
+    handleOnScroll();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Container(
-        color: Color(0x22eeeeee),
+        color: Color(0xff333333),
         child: GestureDetector(
           onTap: handleOnScroll,
           child: Column(
@@ -100,14 +107,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    isLoading ? getProgressIndicator() : Icon(Icons.search, color: Colors.redAccent),
+                    isLoading ? getProgressIndicator() : Icon(Icons.search, color: Colors.white30),
                     Flexible(
                       child: Container(
                         margin: EdgeInsets.only(left: 12),
                         child: SizedBox(
                           child: TextField(
+                            style: TextStyle(color: Colors.white),
                             controller: inputController,
-                            decoration: InputDecoration.collapsed(hintText: 'Search movie...'),
+                            decoration: InputDecoration.collapsed(hintText: 'Search movie...', hintStyle: TextStyle(color: Colors.white10)),
                             onChanged: handleOnSearchTextChanged,
                           ),
                         ),
@@ -118,6 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 18,
                       child: IconButton(
                         icon: Icon(Icons.clear),
+                        color: Colors.white30,
                         iconSize: 18,
                         padding: EdgeInsets.all(0),
                         onPressed: () => inputController.clear(),
@@ -138,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           controller: scrollController,
                           itemCount: movieList != null ? movieList.results.length : 0,
                           itemBuilder: (context, position) {
-                            return MovieItemWidget(movie: movieList.results[position]);
+                            return MovieItemWidget(movie: movieList.results[position], onTap: handleOnTap);
                           }),
                 ),
               ),
